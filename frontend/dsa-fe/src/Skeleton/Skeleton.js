@@ -6,6 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Dialog from '@material-ui/core/Dialog';
+import axios from 'axios';
 
 
 const mockDevices = [
@@ -78,6 +79,12 @@ const Skeleton = () => {
         // poslati http request da odradi ovo spajanje
     }
 
+    const handleRequest = async () => {
+        const data = await axios.get("http://localhost:8080/http://192.168.0.1/off");
+        console.log(data.data);
+    }
+
+
     const renderDialog = () => {
         return(
             <Dialog open={openDialog} onClose={()=>{setOpenDialog(false)}}>
@@ -110,6 +117,7 @@ const Skeleton = () => {
                 </div>
                 {renderDialog()}
             </div>   
+            <button onClick={handleRequest}>Request</button>
         </div>
     )
 
