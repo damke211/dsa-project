@@ -1,0 +1,33 @@
+.Title{
+    font-size:50px;
+}
+
+.TitleContainer{
+    text-align: center;
+}
+
+.GlobalContainer{
+    position:fixed;
+    padding:0;
+    margin:0;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background:#34568B;
+    color:white;
+}
+
+.SelectionButton{
+    font-size:20px;
+    cursor:pointer;
+    border:2px solid black;
+    padding: 5px 10px;
+    width:200px;
+    margin-bottom: 5px;
+}
+
+.SelectionContainer{
+    display: flex;
+    flex-direction: column;
+}
