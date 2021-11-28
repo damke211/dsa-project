@@ -14,6 +14,9 @@
 #include "esp_wifi.h"
 #include "esp_event_loop.h"
 #include "driver/gpio.h"
+#include<stdlib.h>
+#include<stdio.h>
+
 
 #include "debug.h"
 
@@ -41,48 +44,97 @@
 
 static httpd_handle_t server = NULL;
 
-/* An HTTP GET handler */
-esp_err_t home_get_handler(httpd_req_t *req)
+struct data{
+int id;
+int board_id;
+int state;
+char sensor_data[200];
+};
+
+struct data test_data [7]={
 {
-    char*  buf;
-    size_t buf_len;
+        id:2,
+	board_id:1,
+	state:1,
+        sensor_data:"sensor-motion-Main_door"
+    },
+    {
+        id:3,
+	board_id:2,
+	state:1,
+        sensor_data:"output-light-Main_door"
+    },
+    {
+        id:4,
+	board_id:1,
+   	state:0,
+        sensor_data:"output-light-Garden"
+    },
+    {
+        id:5,
+	board_id:2,
+        state:1,
+        sensor_data:"output-light-Main_door"
+    }, 
+    {
+        id:6,
+	board_id:1,
+        state:0,
+        sensor_data:"output-light-Garden"
+    },
+    {
+        id:1,
+	board_id:1,
+        state:1,
+        sensor_data:"sensor-ultrasonic-Garage_door"
+    },
+    {
+        id:7,
+	board_id:2,
+ 	state:0,
+        sensor_data:"sensor-ldr-Roof"
+    }
+};
 
+esp_err_t devices_get_handler(httpd_req_t *req)
+{
+   char data_set_parsed[500]={""};
+	//strcat(data_set_parsed,"#");
+	for(int i=0;i<7;i++){
+		char temp [200] ={""};
+		memset(temp,0,sizeof(temp));
+        
+		int length=snprintf(NULL,0,"%d",test_data[i].id);
+		char* str=malloc(length+1);
+		snprintf(str,length+1,"%d",test_data[i].id);
+		strcat(temp,str);
+		free(str);
+		strcat(temp,"-");
+		length = snprintf( NULL, 0, "%d", test_data[i].state);
+		str = malloc( length + 1 );
+		snprintf( str, length + 1, "%d", test_data[i].state);
+		strcat(temp,str);
+		free(str);
+		strcat(temp,"-");
+		strcat(temp,test_data[i].sensor_data);
+		strcat(data_set_parsed,temp);
+        strcat(data_set_parsed,"#");
+	}
 
-    char resp[512];
-    snprintf(resp, sizeof(resp),req->user_ctx,
-            req->uri,
-            xTaskGetTickCount() * portTICK_PERIOD_MS / 1000);
-    httpd_resp_send(req, resp, strlen(resp));
+    printDEBUG("%s",data_set_parsed);
+
+    httpd_resp_send(req,data_set_parsed, strlen(data_set_parsed));
+
+	memset(data_set_parsed,0,sizeof(data_set_parsed)+1);
 
     return ESP_OK;
 }
 
+
 httpd_uri_t home = {
-    .uri       = "/",
+    .uri       = "/devices",
     .method    = HTTP_GET,
-    .handler   = home_get_handler,
-    /* Let's pass response string in user
-     * context to demonstrate it's usage */
-    .user_ctx  = {
-        "HTTP/1.1 200 OK\r\n"
-            "Content-type: text/html\r\n\r\n"
-            "<html><head><title>HTTP Server</title>"
-            "<style> div.main {"
-            "font-family: Arial;"
-            "padding: 0.01em 16px;"
-            "box-shadow: 2px 2px 1px 1px #d2d2d2;"
-            "background-color: #f1f1f1;}"
-            "</style></head>"
-            "<body><div class='main'>"
-            "<h3>HTTP Server</h3>"
-            "<p>URL: %s</p>"
-            "<p>Uptime: %d seconds</p>"
-            "<button onclick=\"location.href='/on'\" type='button'>"
-            "LED On</button></p>"
-            "<button onclick=\"location.href='/off'\" type='button'>"
-            "LED Off</button></p>"
-            "</div></body></html>"
-    },
+    .handler   = devices_get_handler,
 };
 
 /* An HTTP POST handler */

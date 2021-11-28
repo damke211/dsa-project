@@ -1,5 +1,5 @@
 import React from 'react'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import './Skeleton.css'
 import DeviceDisplay from '../DeviceDisplay/DeviceDisplay'
 import DialogContent from '@material-ui/core/DialogContent';
@@ -9,64 +9,60 @@ import Dialog from '@material-ui/core/Dialog';
 import axios from 'axios';
 
 
-const mockDevices = [
-    {
-        id:1,
-        type:"sensor",
-        state:1,
-        name:"motion",
-        details:"Main door"
-    },
-    {
-        id:3,
-        type:"output",
-        state:1,
-        name:"light",
-        details:"Main door"
-    },
-    {
-        id:4,
-        type:"output",
-        state:0,
-        name:"light",
-        details:"Garden"
-    },
-    {
-        id:5,
-        type:"output",
-        state:1,
-        name:"light",
-        details:"Main door"
-    }, 
-    {
-        id:6,
-        type:"output",
-        state:0,
-        name:"light",
-        details:"Garden"
-    },
-    {
-        id:1,
-        type:"sensor",
-        state:1,
-        name:"ultrasonic",
-        details:"Garage door"
-    },
-    {
-        id:1,
-        type:"sensor",
-        state:1,
-        name:"ldr",
-        details:"Roof"
-    },
-
-]
 
 const Skeleton = () => {
-    const sensors = mockDevices.filter(dev => dev.type === "sensor");
-    const outputs = mockDevices.filter(dev => dev.type === "output");
+    const [devices,setDevices] = useState([]);
     const [openDialog,setOpenDialog] = useState(false);
     const [connectId, setConnectId] = useState(null);
+
+    useEffect(async () => {
+        const data = await axios.get("http://localhost:8080/http://192.168.0.1/devices");
+        const finalObjects = [];
+        const objects = data.data.split("#");
+        objects.pop()
+        objects.forEach(element => {
+          const fields = element.split("-");
+          const obj = {
+            id:parseInt(fields[0]),
+            type:fields[2],
+            name:fields[3],
+            details:fields[4].split('_').join(" "),
+            value:parseFloat(fields[1])
+          }
+          finalObjects.push(obj);
+        });
+
+        setDevices(finalObjects);
+    },[])
+
+    useEffect(()=>{
+        let handle = setInterval(getEmployeesCount,5000);    
+    
+        return ()=>{
+          clearInterval(handle);
+        }
+      });
+
+      const getEmployeesCount= async () => {
+        const data = await axios.get("http://localhost:8080/http://192.168.0.1/devices");
+        const finalObjects = [];
+        const objects = data.data.split("#");
+        objects.pop()
+        objects.forEach(element => {
+          const fields = element.split("-");
+          const obj = {
+            id:parseInt(fields[0]),
+            type:fields[2],
+            name:fields[3],
+            details:fields[4].split('_').join(" "),
+            value:parseFloat(fields[1])
+          }
+          finalObjects.push(obj);
+        });
+            setDevices(finalObjects);
+            console.log(devices)
+      }
+    
 
     const handleConnect = (id) => {
         setConnectId(id);
@@ -80,7 +76,7 @@ const Skeleton = () => {
     }
 
     const handleRequest = async () => {
-        const data = await axios.get("http://localhost:8080/http://192.168.0.1/off");
+        const data = await axios.get("http://localhost:8080/http://192.168.0.1/devices");
         console.log(data.data);
     }
 
@@ -93,7 +89,7 @@ const Skeleton = () => {
                 </DialogTitle>
                 <DialogContent>
                     <div className="SelectionContainer">
-                    {outputs.map(out =>{
+                    {devices.filter(dev => dev.type === "output").map(out =>{
                         return(<div className="SelectionButton" onClick={() => handleSelection(out.id)}>{out.details}</div>)
                     })}
                     </div>
@@ -111,9 +107,9 @@ const Skeleton = () => {
                 <hr/>
                 <div className="Content">
                     <h1>Available Sensors</h1>
-                    <DeviceDisplay devices={sensors} sensors handleConnect={handleConnect}/>
+                    <DeviceDisplay devices={devices.filter(dev => dev.type === "sensor")} sensors handleConnect={handleConnect}/>
                     <h1>Available Outputs</h1>
-                    <DeviceDisplay devices={outputs}/>  
+                    <DeviceDisplay devices={devices.filter(dev => dev.type === "output")}/>  
                 </div>
                 {renderDialog()}
             </div>   

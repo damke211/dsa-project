@@ -1,8 +1,7 @@
-user_main.o: \
- /home/damke/DSA/esp8266-dsa/examples/web-server/main/user_main.c \
+user_main.o: /home/damke/dsa/dsa-project/web-server/main/user_main.c \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/include/freertos/FreeRTOS.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/port/esp8266/include/freertos/FreeRTOSConfig.h \
- /home/damke/DSA/esp8266-dsa/examples/web-server/build/include/sdkconfig.h \
+ /home/damke/dsa/dsa-project/web-server/build/include/sdkconfig.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/rom/ets_sys.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp8266/eagle_soc.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/driver/soc.h \
@@ -87,13 +86,13 @@ user_main.o: \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp8266/pin_mux_register.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp8266/eagle_soc.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp8266/gpio_register.h \
- /home/damke/DSA/esp8266-dsa/examples/web-server/main/debug.h
+ /home/damke/dsa/dsa-project/web-server/main/debug.h
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/include/freertos/FreeRTOS.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/port/esp8266/include/freertos/FreeRTOSConfig.h:
 
-/home/damke/DSA/esp8266-dsa/examples/web-server/build/include/sdkconfig.h:
+/home/damke/dsa/dsa-project/web-server/build/include/sdkconfig.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/rom/ets_sys.h:
 
@@ -263,5 +262,5 @@ user_main.o: \
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp8266/gpio_register.h:
 
-/home/damke/DSA/esp8266-dsa/examples/web-server/main/debug.h:
-/home/damke/DSA/esp8266-dsa/examples/web-server/main/./user_main.c:
+/home/damke/dsa/dsa-project/web-server/main/debug.h:
+/home/damke/dsa/dsa-project/web-server/main/./user_main.c:
