@@ -10,13 +10,15 @@ import axios from 'axios';
 
 
 
-const Skeleton = () => {
+const Skeleton = () => {    
     const [devices,setDevices] = useState([]);
     const [openDialog,setOpenDialog] = useState(false);
     const [connectId, setConnectId] = useState(null);
 
     useEffect(async () => {
         const data = await axios.get("http://localhost:8080/http://192.168.0.1/devices");
+        if(data.data === "null")
+            return;
         const finalObjects = [];
         const objects = data.data.split("#");
         objects.pop()
@@ -45,6 +47,8 @@ const Skeleton = () => {
 
       const getEmployeesCount= async () => {
         const data = await axios.get("http://localhost:8080/http://192.168.0.1/devices");
+        if(data.data === "null")
+            return;
         const finalObjects = [];
         const objects = data.data.split("#");
         objects.pop()
@@ -76,8 +80,8 @@ const Skeleton = () => {
     }
 
     const handleRequest = async () => {
-        const data = await axios.get("http://localhost:8080/http://192.168.0.1/devices");
-        console.log(data.data);
+        const data = await axios.post("http://localhost:8080/http://192.168.0.1/connect","1-5");
+        console.log(data);
     }
 
 
