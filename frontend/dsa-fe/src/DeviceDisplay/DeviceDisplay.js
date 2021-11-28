@@ -11,7 +11,7 @@ const DeviceDisplay = ({devices, sensors,handleConnect}) => {
             <Device
                 id={dev.id}
                 name={dev.name}
-                value={dev.state}
+                value={dev.value}
                 key={dev.id}
                 details={dev.details}
                 sensor={sensors}
