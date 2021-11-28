@@ -45,7 +45,11 @@
 
 static httpd_handle_t server = NULL;
 
-
+void append(char* s, char c) {
+        int len = strlen(s);
+        s[len] = c;
+        s[len+1] = '\0';
+}
 
 struct data{
 int id;
@@ -106,33 +110,32 @@ struct data test_data [7]={
 esp_err_t devices_get_handler(httpd_req_t *req)
 {
    char data_set_parsed[500]={""};
-	//strcat(data_set_parsed,"#");
-    // if(SENSOR_COUNT == 0)
-    //     strcpy(data_set_parsed,"null");
-    // else{
-    for(int i=0;i<7;i++){
+	// strcat(data_set_parsed,"#");
+    if(SENSOR_COUNT == 0)
+        strcpy(data_set_parsed,"null");
+    else{
+    for(int i=0;i<SENSOR_COUNT;i++){
             char temp [200] ={""};
             memset(temp,0,sizeof(temp));
-            
-            int length=snprintf(NULL,0,"%d",test_data[i].id);
+            int length=snprintf(NULL,0,"%d",board[i].id);
             char* str=malloc(length+1);
-            snprintf(str,length+1,"%d",test_data[i].id);
+            snprintf(str,length+1,"%d",board[i].id);
             strcat(temp,str);
             free(str);
             strcat(temp,"-");
-            length = snprintf( NULL, 0, "%d", test_data[i].state);
+            length = snprintf( NULL, 0, "%d", board[i].state);
             str = malloc( length + 1 );
-            snprintf( str, length + 1, "%d", test_data[i].state);
+            snprintf( str, length + 1, "%d", board[i].state);
             strcat(temp,str);
             free(str);
             strcat(temp,"-");
-            strcat(temp,test_data[i].sensor_data);
+            strcat(temp,board[i].sensor_data);
             strcat(data_set_parsed,temp);
             strcat(data_set_parsed,"#");
 	}
+    }
 
-
-    // }
+    // printDEBUG(DSYS,"%s",data_set_parsed);
 	
     httpd_resp_send(req,data_set_parsed, strlen(data_set_parsed));
 
@@ -162,49 +165,77 @@ esp_err_t devices_post_handler(httpd_req_t *req)
         return ESP_FAIL;
     }
 
-    int sensors_counter=0;
-	for(int i=0;content[i]!='\0';i++){	
-			if(content[i]=='#' && content[i+1]!='\0'){
-			char temp_data[50];
-			memset(temp_data,0,sizeof(temp_data));
-			int id_counter=0;
-			while(content[++i]!='-')
-			{
-			temp_data[id_counter]=content[i];
-			id_counter++;
-			}
-			board[sensors_counter].id=atoi(temp_data);
-			memset(temp_data,0,sizeof(temp_data));
-			id_counter=0;
-			while(content[++i]!='-'){
-	temp_data[id_counter]=content[i];
-			id_counter++;
-			}
-			board[sensors_counter].state=atoi(temp_data);
-			memset(temp_data,0,sizeof(temp_data));
-			id_counter=0;
-		while(content[++i]!='#')
-		{
-		temp_data[id_counter++]=content[i];
-		}
-		--i;
-		memset(board[sensors_counter].sensor_data,0,sizeof(board[sensors_counter].sensor_data)+1);
-			strcat(board[sensors_counter].sensor_data,temp_data);
-			++sensors_counter;
-			}
-	}
+   char *end_str;
+    char *token = strtok_r(content, "#", &end_str);
+    int boardId = -1;
+    short breakOuter = 1;
+    for(int i =0; token!= NULL  ;i++)
+    {
+        printDEBUG(DSYS,"POZIVANJE PRVOG FOR");
+        char *end_token;
+        if(boardId == -1){
+            boardId = atoi(token);
+            token = strtok_r(NULL, "#", &end_str);
+            continue;
+        }
+        struct data temp;
+        char delim = '-';
+        char *token2 = strtok_r(token, "-", &end_token);
+        temp.board_id = boardId;
+        char details[50]={""};
+        breakOuter = 1;
+        for(int j =0; (token2!= NULL) && breakOuter== 1; j++)
+        {
+            printDEBUG(DSYS,"unutrasnji for");
+            if(j == 0){
+                temp.id = atoi(token2);
+            }else if(j ==1){
+                temp.state = atoi(token2);
+                for(int k = 0;k<SENSOR_COUNT;k++){
+                    printDEBUG(DSYS,"TRAZI PO SENZORIMA");
+                    printDEBUG(DSYS,"%d temp id",temp.id);
+                    printDEBUG(DSYS,"%d stari id",board[k].id);
 
-    SENSOR_COUNT = sensors_counter;
-
-    for(int i =0;i<sensors_counter;i++){
-        printDEBUG(DSYS,"%d",board[i].id);
-        printDEBUG(DSYS,"%d",board[i].state);
-        printDEBUG(DSYS,"%s",board[i].sensor_data);
+                    if(temp.id == board[k].id){
+                        if(temp.state != board[k].state){
+                            board[k].state = temp.state;
+                            printDEBUG(DSYS,"SKONTAO DA JE DA IMA ISTI");
+                        }
+                        breakOuter = 0;
+                        break;
+                    }
+                }
+            }else 
+            {   
+                strcat(details,token2);
+                if(j!=4){
+                append(details,delim);
+                }
+            }
+            
+            // printDEBUG(DSYS,"%s",token2);
+            token2 = strtok_r(NULL, "-", &end_token);
+        }
+        if(breakOuter == 1)
+        {
+            strcpy(temp.sensor_data,details);
+            board[i-1] = temp;
+            SENSOR_COUNT++;
+            printDEBUG(DSYS,"%d",board[i-1].id);
+            printDEBUG(DSYS,"%d",board[i-1].board_id);
+            printDEBUG(DSYS,"%s",board[i-1].sensor_data);
+            printDEBUG(DSYS,"%d",board[i-1].state);
+        }
+            
+        //    printDEBUG(DSYS,"%d",SENSOR_COUNT);
+        // temp.sensor_data = details;
+        token = strtok_r(NULL, "#", &end_str);
     }
 
     const char resp[] = "URI POST Response";
     httpd_resp_send(req, resp, -1);
     return ESP_OK;
+  
 }
 
 httpd_uri_t devicesPost = {
@@ -248,7 +279,7 @@ esp_err_t devices_connect_handler(httpd_req_t *req)
             if(board[i].numOfCon > MAX_CONNECTIONS)
             {
                 printDEBUG(DSYS,"MAXIMUM NUMBER OF CONNECTIONS");
-                return;
+                // return;
             }
                 // printDEBUG(DSYS,"konektovalo je nesto");
             board[i].connections[board[i].numOfCon] = outputId;

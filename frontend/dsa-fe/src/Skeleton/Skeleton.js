@@ -16,29 +16,29 @@ const Skeleton = () => {
     const [connectId, setConnectId] = useState(null);
 
     useEffect(async () => {
-        const data = await axios.get("http://localhost:8080/http://192.168.0.1/devices");
-        if(data.data === null)
-        {
-            console.log("usla je u fail")
-            setDevices([]);
-            return;
-        }
-        const finalObjects = [];
-        const objects = data.data.split("#");
-        objects.pop()
-        objects.forEach(element => {
-          const fields = element.split("-");
-          const obj = {
-            id:parseInt(fields[0]),
-            type:fields[2],
-            name:fields[3],
-            details:fields[4].split('_').join(" "),
-            value:parseFloat(fields[1])
-          }
-          finalObjects.push(obj);
-        });
+        // const data = await axios.get("http://localhost:8080/http://192.168.0.1/devices");
+        // if(data.data === null)
+        // {
+        //     console.log("usla je u fail")
+        //     setDevices([]);
+        //     return;
+        // }
+        // const finalObjects = [];
+        // const objects = data.data.split("#");
+        // objects.pop()
+        // objects.forEach(element => {
+        //   const fields = element.split("-");
+        //   const obj = {
+        //     id:parseInt(fields[0]),
+        //     type:fields[2],
+        //     name:fields[3],
+        //     details:fields[4].split('_').join(" "),
+        //     value:parseFloat(fields[1])
+        //   }
+        //   finalObjects.push(obj);
+        // });
 
-        setDevices(finalObjects);
+        // setDevices(finalObjects);
     },[])
 
     useEffect(()=>{
@@ -56,20 +56,21 @@ const Skeleton = () => {
         console.log("No devices found");
         return;
     }
+    console.log(data.data);
     const finalObjects = [];
     const objects = data.data.split("#");
-    objects.pop()
     objects.forEach(element => {
         const fields = element.split("-");
         const obj = {
         id:parseInt(fields[0]),
         type:fields[2],
         name:fields[3],
-        details:fields[4].split('_').join(" "),
+        details:fields[4],
         value:parseFloat(fields[1])
         }
         finalObjects.push(obj);
     });
+    finalObjects.pop();
         setDevices(finalObjects);
         console.log(devices)   
 }
@@ -92,7 +93,7 @@ const Skeleton = () => {
     }
 
     const handleChange = async () => {
-        const data = await axios.post("http://localhost:8080/http://192.168.0.1/devices","0#1-0-output-door-Garage_Door#2-1-output-light-Garden_Light#3-0-output-light-Kitchen_Light#4-1-nesto3#1--1515870811-nesto2#6-0-nesto1#");
+        const data = await axios.post("http://localhost:8080/http://192.168.0.1/devices","0#1-0-output-door-Garage_Door#2-1-output-light-Garden_Light#3-0-output-light-Kitchen_Light#");
         console.log(data);
     }
 
