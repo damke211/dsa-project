@@ -44,6 +44,8 @@
 
 static httpd_handle_t server = NULL;
 
+
+
 struct data{
 int id;
 int board_id;
@@ -51,6 +53,7 @@ int state;
 char sensor_data[200];
 };
 
+struct data board[20];
 struct data test_data [7]={
 {
         id:2,
@@ -121,7 +124,6 @@ esp_err_t devices_get_handler(httpd_req_t *req)
         strcat(data_set_parsed,"#");
 	}
 
-    printDEBUG("%s",data_set_parsed);
 
     httpd_resp_send(req,data_set_parsed, strlen(data_set_parsed));
 
@@ -131,96 +133,74 @@ esp_err_t devices_get_handler(httpd_req_t *req)
 }
 
 
-httpd_uri_t home = {
+httpd_uri_t devicesGet = {
     .uri       = "/devices",
     .method    = HTTP_GET,
     .handler   = devices_get_handler,
 };
 
-/* An HTTP POST handler */
-esp_err_t on_get_handler(httpd_req_t *req)
+esp_err_t devices_post_handler(httpd_req_t *req)
 {
-    char*  buf;
-    size_t buf_len;
+    char content[200];
 
+    size_t recv_size = MIN(req->content_len, sizeof(content));
 
-    gpio_set_level(GPIO_LED, 0);
-    char resp[512];
-    snprintf(resp, sizeof(resp),req->user_ctx,
-            req->uri,
-            xTaskGetTickCount() * portTICK_PERIOD_MS / 1000);
-    httpd_resp_send(req, resp, strlen(resp));
+    int ret = httpd_req_recv(req, content, recv_size);
+    if (ret <= 0) {
+        if (ret == HTTPD_SOCK_ERR_TIMEOUT) {
 
+            httpd_resp_send_408(req);
+        }
+        return ESP_FAIL;
+    }
+
+    int sensors_counter=0;
+	for(int i=0;content[i]!='\0';i++){	
+			if(content[i]=='#' && content[i+1]!='\0'){
+			char temp_data[50];
+			memset(temp_data,0,sizeof(temp_data));
+			int id_counter=0;
+			while(content[++i]!='-')
+			{
+			temp_data[id_counter]=content[i];
+			id_counter++;
+			}
+			board[sensors_counter].id=atoi(temp_data);
+			memset(temp_data,0,sizeof(temp_data));
+			id_counter=0;
+			while(content[++i]!='-'){
+	temp_data[id_counter]=content[i];
+			id_counter++;
+			}
+			board[sensors_counter].state=atoi(temp_data);
+			memset(temp_data,0,sizeof(temp_data));
+			id_counter=0;
+		while(content[++i]!='#')
+		{
+		temp_data[id_counter++]=content[i];
+		}
+		--i;
+		memset(board[sensors_counter].sensor_data,0,sizeof(board[sensors_counter].sensor_data)+1);
+			strcat(board[sensors_counter].sensor_data,temp_data);
+			++sensors_counter;
+			}
+	}
+
+    for(int i =0;i<sensors_counter;i++){
+        printDEBUG(DSYS,"%d",board[i].id);
+        printDEBUG(DSYS,"%d",board[i].state);
+        printDEBUG(DSYS,"%s",board[i].sensor_data);
+    }
+
+    const char resp[] = "URI POST Response";
+    httpd_resp_send(req, resp, -1);
     return ESP_OK;
 }
 
-httpd_uri_t on = 
-{
-    .uri       = "/on",
-    .method    = HTTP_GET,
-    .handler   = on_get_handler,
-    .user_ctx  = {
-        "HTTP/1.1 200 OK\r\n"
-            "Content-type: text/html\r\n\r\n"
-            "<html><head><title>HTTP Server</title>"
-            "<style> div.main {"
-            "font-family: Arial;"
-            "padding: 0.01em 16px;"
-            "box-shadow: 2px 2px 1px 1px #d2d2d2;"
-            "background-color: #f1f1f1;}"
-            "</style></head>"
-            "<body><div class='main'>"
-            "<h3>HTTP Server</h3>"
-            "<p>URL: %s</p>"
-            "<p>Uptime: %d seconds</p>"
-            "<button onclick=\"location.href='/on'\" type='button'>"
-            "LED On</button></p>"
-            "<button onclick=\"location.href='/off'\" type='button'>"
-            "LED Off</button></p>"
-            "</div></body></html>"
-    }
-};
-
-esp_err_t off_get_handler(httpd_req_t *req)
-{
-    char*  buf;
-    size_t buf_len;
-
-
-    gpio_set_level(GPIO_LED, 1);
-    char resp[512];
-    snprintf(resp, sizeof(resp),req->user_ctx,
-            req->uri,
-            xTaskGetTickCount() * portTICK_PERIOD_MS / 1000);
-    httpd_resp_send(req, resp, strlen(resp));
-
-    return ESP_OK;
-}
-
-httpd_uri_t off = {
-    .uri       = "/off",
-    .method    = HTTP_GET,
-    .handler   = off_get_handler,
-    .user_ctx  = {
-        "HTTP/1.1 200 OK\r\n"
-            "Content-type: text/html\r\n\r\n"
-            "<html><head><title>HTTP Server</title>"
-            "<style> div.main {"
-            "font-family: Arial;"
-            "padding: 0.01em 16px;"
-            "box-shadow: 2px 2px 1px 1px #d2d2d2;"
-            "background-color: #f1f1f1;}"
-            "</style></head>"
-            "<body><div class='main'>"
-            "<h3>HTTP Server</h3>"
-            "<p>URL: %s</p>"
-            "<p>Uptime: %d seconds</p>"
-            "<button onclick=\"location.href='/on'\" type='button'>"
-            "LED On</button></p>"
-            "<button onclick=\"location.href='/off'\" type='button'>"
-            "LED Off</button></p>"
-            "</div></body></html>"
-    }
+httpd_uri_t devicesPost = {
+    .uri = "/devices",
+    .method = HTTP_POST,
+    .handler = devices_post_handler,
 };
 
 
@@ -234,9 +214,9 @@ httpd_handle_t start_webserver(void)
     {
         // Set URI handlers
         printDEBUG(DSYS, "Registering URI handlers");
-        httpd_register_uri_handler(server, &home);
-        httpd_register_uri_handler(server, &on);
-        httpd_register_uri_handler(server, &off);
+        httpd_register_uri_handler(server, &devicesGet);
+        httpd_register_uri_handler(server, &devicesPost);
+        // httpd_register_uri_handler(server, &off);
         return server;
     }
 
