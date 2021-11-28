@@ -41,6 +41,7 @@
 #define SERVER_PORT 80 
 
 #define GPIO_LED										16
+#define MAX_CONNECTIONS 10
 
 static httpd_handle_t server = NULL;
 
@@ -51,8 +52,11 @@ int id;
 int board_id;
 int state;
 char sensor_data[200];
+int connections[MAX_CONNECTIONS];
+int numOfCon;
 };
 
+int SENSOR_COUNT = 0;
 struct data board[20];
 struct data test_data [7]={
 {
@@ -103,35 +107,39 @@ esp_err_t devices_get_handler(httpd_req_t *req)
 {
    char data_set_parsed[500]={""};
 	//strcat(data_set_parsed,"#");
-	for(int i=0;i<7;i++){
-		char temp [200] ={""};
-		memset(temp,0,sizeof(temp));
-        
-		int length=snprintf(NULL,0,"%d",test_data[i].id);
-		char* str=malloc(length+1);
-		snprintf(str,length+1,"%d",test_data[i].id);
-		strcat(temp,str);
-		free(str);
-		strcat(temp,"-");
-		length = snprintf( NULL, 0, "%d", test_data[i].state);
-		str = malloc( length + 1 );
-		snprintf( str, length + 1, "%d", test_data[i].state);
-		strcat(temp,str);
-		free(str);
-		strcat(temp,"-");
-		strcat(temp,test_data[i].sensor_data);
-		strcat(data_set_parsed,temp);
-        strcat(data_set_parsed,"#");
+    // if(SENSOR_COUNT == 0)
+    //     strcpy(data_set_parsed,"null");
+    // else{
+    for(int i=0;i<7;i++){
+            char temp [200] ={""};
+            memset(temp,0,sizeof(temp));
+            
+            int length=snprintf(NULL,0,"%d",test_data[i].id);
+            char* str=malloc(length+1);
+            snprintf(str,length+1,"%d",test_data[i].id);
+            strcat(temp,str);
+            free(str);
+            strcat(temp,"-");
+            length = snprintf( NULL, 0, "%d", test_data[i].state);
+            str = malloc( length + 1 );
+            snprintf( str, length + 1, "%d", test_data[i].state);
+            strcat(temp,str);
+            free(str);
+            strcat(temp,"-");
+            strcat(temp,test_data[i].sensor_data);
+            strcat(data_set_parsed,temp);
+            strcat(data_set_parsed,"#");
 	}
 
 
+    // }
+	
     httpd_resp_send(req,data_set_parsed, strlen(data_set_parsed));
 
 	memset(data_set_parsed,0,sizeof(data_set_parsed)+1);
 
     return ESP_OK;
 }
-
 
 httpd_uri_t devicesGet = {
     .uri       = "/devices",
@@ -186,6 +194,8 @@ esp_err_t devices_post_handler(httpd_req_t *req)
 			}
 	}
 
+    SENSOR_COUNT = sensors_counter;
+
     for(int i =0;i<sensors_counter;i++){
         printDEBUG(DSYS,"%d",board[i].id);
         printDEBUG(DSYS,"%d",board[i].state);
@@ -203,6 +213,68 @@ httpd_uri_t devicesPost = {
     .handler = devices_post_handler,
 };
 
+esp_err_t devices_connect_handler(httpd_req_t *req)
+{
+    char content[200];
+
+    size_t recv_size = MIN(req->content_len, sizeof(content));
+
+    int ret = httpd_req_recv(req, content, recv_size);
+    if (ret <= 0) {
+        if (ret == HTTPD_SOCK_ERR_TIMEOUT) {
+
+            httpd_resp_send_408(req);
+        }
+        return ESP_FAIL;
+    }
+
+    printDEBUG(DSYS,"velicina contenta %s",content);
+    int sensorId = -1;
+    int outputId = 0;
+    char * token = strtok(content, "-");
+    while( token != NULL ) {
+        if(sensorId == -1)
+            sensorId = atoi(token);
+        else
+            outputId = atoi(token);
+        token = strtok(NULL, " ");
+    }
+    
+    for(int i =0; i < SENSOR_COUNT;i++)
+    {   
+                printDEBUG(DSYS,"%d sa %d", sensorId,outputId);
+        if(board[i].id == sensorId)
+        {
+            if(board[i].numOfCon > MAX_CONNECTIONS)
+            {
+                printDEBUG(DSYS,"MAXIMUM NUMBER OF CONNECTIONS");
+                return;
+            }
+                // printDEBUG(DSYS,"konektovalo je nesto");
+            board[i].connections[board[i].numOfCon] = outputId;
+            board[i].numOfCon++;
+                // printDEBUG(DSYS,"%d",sensorId);
+                // printDEBUG(DSYS,"%d",outputId);
+        }
+    } 
+
+    // for(int i =0;i<sensors_counter;i++){
+    //     printDEBUG(DSYS,"%d",board[i].id);
+    //     printDEBUG(DSYS,"%d",board[i].state);
+    //     printDEBUG(DSYS,"%s",board[i].sensor_data);
+    // }
+
+    const char resp[] = "konektovalo ";
+    httpd_resp_send(req, resp, -1);
+    return ESP_OK;
+}
+
+httpd_uri_t connectPost = {
+    .uri = "/connect",
+    .method = HTTP_POST,
+    .handler = devices_connect_handler,
+};
+
 
 httpd_handle_t start_webserver(void)
 {
@@ -216,6 +288,8 @@ httpd_handle_t start_webserver(void)
         printDEBUG(DSYS, "Registering URI handlers");
         httpd_register_uri_handler(server, &devicesGet);
         httpd_register_uri_handler(server, &devicesPost);
+        httpd_register_uri_handler(server, &connectPost);
+
         // httpd_register_uri_handler(server, &off);
         return server;
     }
@@ -223,6 +297,7 @@ httpd_handle_t start_webserver(void)
     printDEBUG(DSYS, "Error starting server!");
     return NULL;
 }
+
 
 void stop_webserver()
 {
