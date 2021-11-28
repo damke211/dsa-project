@@ -17,8 +17,12 @@ const Skeleton = () => {
 
     useEffect(async () => {
         const data = await axios.get("http://localhost:8080/http://192.168.0.1/devices");
-        if(data.data === "null")
+        if(data.data === null)
+        {
+            console.log("usla je u fail")
+            setDevices([]);
             return;
+        }
         const finalObjects = [];
         const objects = data.data.split("#");
         objects.pop()
@@ -45,27 +49,30 @@ const Skeleton = () => {
         }
       });
 
-      const getEmployeesCount= async () => {
-        const data = await axios.get("http://localhost:8080/http://192.168.0.1/devices");
-        if(data.data === "null")
-            return;
-        const finalObjects = [];
-        const objects = data.data.split("#");
-        objects.pop()
-        objects.forEach(element => {
-          const fields = element.split("-");
-          const obj = {
-            id:parseInt(fields[0]),
-            type:fields[2],
-            name:fields[3],
-            details:fields[4].split('_').join(" "),
-            value:parseFloat(fields[1])
-          }
-          finalObjects.push(obj);
-        });
-            setDevices(finalObjects);
-            console.log(devices)
-      }
+    const getEmployeesCount= async () => {
+    const data = await axios.get("http://localhost:8080/http://192.168.0.1/devices");
+    if(data.data === null){
+        setDevices([]);
+        console.log("No devices found");
+        return;
+    }
+    const finalObjects = [];
+    const objects = data.data.split("#");
+    objects.pop()
+    objects.forEach(element => {
+        const fields = element.split("-");
+        const obj = {
+        id:parseInt(fields[0]),
+        type:fields[2],
+        name:fields[3],
+        details:fields[4].split('_').join(" "),
+        value:parseFloat(fields[1])
+        }
+        finalObjects.push(obj);
+    });
+        setDevices(finalObjects);
+        console.log(devices)   
+}
     
 
     const handleConnect = (id) => {
@@ -73,14 +80,19 @@ const Skeleton = () => {
         setOpenDialog(true);
     }   
 
-    const handleSelection = (id) => {
-        alert("Connecting " + connectId + " with " + id);
+    const handleSelection = async (id) => {
+        const response = await axios.post("http://localhost:8080/http://192.168.0.1/connect","1-2");
         setOpenDialog(false);
         // poslati http request da odradi ovo spajanje
     }
 
     const handleRequest = async () => {
-        const data = await axios.post("http://localhost:8080/http://192.168.0.1/connect","1-5");
+        const data = await axios.post("http://localhost:8080/http://192.168.0.1/devices","0#1-1-output-door-Garage_Door#2-0-output-light-Garden_Light#3-1-output-light-Kitchen_Light#");
+        console.log(data);
+    }
+
+    const handleChange = async () => {
+        const data = await axios.post("http://localhost:8080/http://192.168.0.1/devices","0#1-0-output-door-Garage_Door#2-1-output-light-Garden_Light#3-0-output-light-Kitchen_Light#4-1-nesto3#1--1515870811-nesto2#6-0-nesto1#");
         console.log(data);
     }
 
@@ -117,7 +129,8 @@ const Skeleton = () => {
                 </div>
                 {renderDialog()}
             </div>   
-            <button onClick={handleRequest}>Request</button>
+            <button onClick={handleRequest}>Insert devices</button>
+            <button onClick={handleChange}>Change values</button>
         </div>
     )
 
