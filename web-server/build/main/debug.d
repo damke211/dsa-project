@@ -1,9 +1,9 @@
-debug.o: /home/damke/DSA/esp8266-dsa/examples/web-server/main/debug.c \
- /home/damke/DSA/esp8266-dsa/examples/web-server/main/debug.h \
- /home/damke/DSA/esp8266-dsa/examples/web-server/main/misc.h \
+debug.o: /home/damke/dsa/dsa-project/web-server/main/debug.c \
+ /home/damke/dsa/dsa-project/web-server/main/debug.h \
+ /home/damke/dsa/dsa-project/web-server/main/misc.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/include/freertos/FreeRTOS.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/port/esp8266/include/freertos/FreeRTOSConfig.h \
- /home/damke/DSA/esp8266-dsa/examples/web-server/build/include/sdkconfig.h \
+ /home/damke/dsa/dsa-project/web-server/build/include/sdkconfig.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/rom/ets_sys.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp8266/eagle_soc.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/driver/soc.h \
@@ -41,15 +41,15 @@ debug.o: /home/damke/DSA/esp8266-dsa/examples/web-server/main/debug.c \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp8266/eagle_soc.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp8266/gpio_register.h
 
-/home/damke/DSA/esp8266-dsa/examples/web-server/main/debug.h:
+/home/damke/dsa/dsa-project/web-server/main/debug.h:
 
-/home/damke/DSA/esp8266-dsa/examples/web-server/main/misc.h:
+/home/damke/dsa/dsa-project/web-server/main/misc.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/include/freertos/FreeRTOS.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/port/esp8266/include/freertos/FreeRTOSConfig.h:
 
-/home/damke/DSA/esp8266-dsa/examples/web-server/build/include/sdkconfig.h:
+/home/damke/dsa/dsa-project/web-server/build/include/sdkconfig.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/rom/ets_sys.h:
 
@@ -122,4 +122,4 @@ debug.o: /home/damke/DSA/esp8266-dsa/examples/web-server/main/debug.c \
 /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp8266/eagle_soc.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp8266/gpio_register.h:
-/home/damke/DSA/esp8266-dsa/examples/web-server/main/./debug.c:
+/home/damke/dsa/dsa-project/web-server/main/./debug.c:

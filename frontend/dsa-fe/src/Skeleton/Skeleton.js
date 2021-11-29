@@ -42,14 +42,14 @@ const Skeleton = () => {
     },[])
 
     useEffect(()=>{
-        let handle = setInterval(getEmployeesCount,5000);    
+        let handle = setInterval(getData,5000);    
     
         return ()=>{
           clearInterval(handle);
         }
       });
 
-    const getEmployeesCount= async () => {
+    const getData= async () => {
     const data = await axios.get("http://localhost:8080/http://192.168.0.1/devices");
     if(data.data === null){
         setDevices([]);

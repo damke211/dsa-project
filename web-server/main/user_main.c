@@ -51,6 +51,33 @@ void append(char* s, char c) {
         s[len+1] = '\0';
 }
 
+
+struct action{
+    int boardId;
+    int outputId;
+    int newState;
+};
+
+struct action actions[50];
+int numOfActions = 0;
+
+void generateAction(int boardId, int outputId, int newState){
+    struct action temp;
+    temp.outputId = outputId;
+    temp.boardId = boardId;
+    temp.newState = newState;
+    actions[numOfActions] = temp;
+    numOfActions++;
+}
+
+void deleteFromActions(int index){
+    for(int i = index;i < numOfActions;i++)
+    {
+        actions[i] = actions[i+1]; 
+    }
+    numOfActions--;
+}
+
 struct data{
 int id;
 int board_id;
@@ -59,6 +86,7 @@ char sensor_data[200];
 int connections[MAX_CONNECTIONS];
 int numOfCon;
 };
+
 
 int SENSOR_COUNT = 0;
 struct data board[20];
@@ -153,7 +181,6 @@ httpd_uri_t devicesGet = {
 esp_err_t devices_post_handler(httpd_req_t *req)
 {
     char content[200];
-
     size_t recv_size = MIN(req->content_len, sizeof(content));
 
     int ret = httpd_req_recv(req, content, recv_size);
@@ -171,7 +198,7 @@ esp_err_t devices_post_handler(httpd_req_t *req)
     short breakOuter = 1;
     for(int i =0; token!= NULL  ;i++)
     {
-        printDEBUG(DSYS,"POZIVANJE PRVOG FOR");
+        // printDEBUG(DSYS,"POZIVANJE PRVOG FOR");
         char *end_token;
         if(boardId == -1){
             boardId = atoi(token);
@@ -186,20 +213,27 @@ esp_err_t devices_post_handler(httpd_req_t *req)
         breakOuter = 1;
         for(int j =0; (token2!= NULL) && breakOuter== 1; j++)
         {
-            printDEBUG(DSYS,"unutrasnji for");
+            // printDEBUG(DSYS,"unutrasnji for");
             if(j == 0){
                 temp.id = atoi(token2);
             }else if(j ==1){
                 temp.state = atoi(token2);
                 for(int k = 0;k<SENSOR_COUNT;k++){
-                    printDEBUG(DSYS,"TRAZI PO SENZORIMA");
-                    printDEBUG(DSYS,"%d temp id",temp.id);
-                    printDEBUG(DSYS,"%d stari id",board[k].id);
+                    // printDEBUG(DSYS,"TRAZI PO SENZORIMA");
+                    // printDEBUG(DSYS,"%d temp id",temp.id);
+                    // printDEBUG(DSYS,"%d stari id",board[k].id);
 
                     if(temp.id == board[k].id){
                         if(temp.state != board[k].state){
                             board[k].state = temp.state;
-                            printDEBUG(DSYS,"SKONTAO DA JE DA IMA ISTI");
+                            // printDEBUG(DSYS,"SKONTAO DA JE DA IMA ISTI");
+                            for(int l =0;l < board[k].numOfCon ;l++)
+                            {
+                                int connId = board[k].connections[l];
+                                board[l].state = temp.state;
+                                generateAction(boardId,connId,temp.state);
+                            }
+                            // ovo generate action it a petlja nije testirano
                         }
                         breakOuter = 0;
                         break;
@@ -221,18 +255,30 @@ esp_err_t devices_post_handler(httpd_req_t *req)
             strcpy(temp.sensor_data,details);
             board[i-1] = temp;
             SENSOR_COUNT++;
-            printDEBUG(DSYS,"%d",board[i-1].id);
-            printDEBUG(DSYS,"%d",board[i-1].board_id);
-            printDEBUG(DSYS,"%s",board[i-1].sensor_data);
-            printDEBUG(DSYS,"%d",board[i-1].state);
+            // printDEBUG(DSYS,"%d",board[i-1].id);
+            // printDEBUG(DSYS,"%d",board[i-1].board_id);
+            // printDEBUG(DSYS,"%s",board[i-1].sensor_data);
+            // printDEBUG(DSYS,"%d",board[i-1].state);
         }
             
         //    printDEBUG(DSYS,"%d",SENSOR_COUNT);
         // temp.sensor_data = details;
         token = strtok_r(NULL, "#", &end_str);
     }
+    
+    const char resp[200]={""};
+    char template[] = {"%d-%d#"};
+    for(int i =0;i < numOfActions;i++)
+    {
+        if(actions[i].boardId == boardId)
+        {
+            char temp[10];
+            snprintf(temp,sizeof(temp),template,actions[i].outputId,actions[i].newState);
+            strcat(resp,temp);
+            deleteFromActions(i);
+        }
+    }
 
-    const char resp[] = "URI POST Response";
     httpd_resp_send(req, resp, -1);
     return ESP_OK;
   
