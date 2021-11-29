@@ -40,8 +40,10 @@ const Device = ({id,name,value,details,sensor,handleConnect}) =>{
             case "ldr":
                 setImgSource(value === 1 ? ldrOn : ldrOff);
                 break;
+            default:
+                setImgSource();
         }
-    })
+    },[name,value]);
 
     const getLabel = () => {
         switch(name){
@@ -57,6 +59,8 @@ const Device = ({id,name,value,details,sensor,handleConnect}) =>{
                 return value ? Labels.door.opening : Labels.door.closing;
             case "ldr":
                 return value ? Labels.ldr.on : Labels.ldr.off;
+            default:
+                return "unknown";
             }
     }
 
@@ -69,7 +73,7 @@ const Device = ({id,name,value,details,sensor,handleConnect}) =>{
     return(
         <div className="DeviceContainer">
             <div>
-                <img className="Image" src={imgSrc}></img>
+                <img alt="device icon" className="Image" src={imgSrc}></img>
             </div>
             <div className="Label">
             <label>{getLabel()}</label>

@@ -180,7 +180,7 @@ httpd_uri_t devicesGet = {
 
 esp_err_t devices_post_handler(httpd_req_t *req)
 {
-    char content[200];
+    char content[200]={""};
     size_t recv_size = MIN(req->content_len, sizeof(content));
 
     int ret = httpd_req_recv(req, content, recv_size);
@@ -192,48 +192,48 @@ esp_err_t devices_post_handler(httpd_req_t *req)
         return ESP_FAIL;
     }
 
-   char *end_str;
+    printDEBUG(DSYS,"CONTENT ZA PARSIRANJE\n");
+    printDEBUG(DSYS,"%s\n",content);   
+    printDEBUG(DSYS,"////////////////////////////////\n");   
+    char *end_str;
     char *token = strtok_r(content, "#", &end_str);
     int boardId = -1;
     short breakOuter = 1;
     for(int i =0; token!= NULL  ;i++)
     {
-        // printDEBUG(DSYS,"POZIVANJE PRVOG FOR");
+        printDEBUG(DSYS,"PARSING VELIKI\n");   
+        
         char *end_token;
         if(boardId == -1){
+            printDEBUG(DSYS,"PARSING BOARD ID \n");   
             boardId = atoi(token);
             token = strtok_r(NULL, "#", &end_str);
             continue;
         }
-        struct data temp;
-        char delim = '-';
-        char *token2 = strtok_r(token, "-", &end_token);
-        temp.board_id = boardId;
-        char details[50]={""};
         breakOuter = 1;
-        for(int j =0; (token2!= NULL) && breakOuter== 1; j++)
+        char details[50]={""};
+        struct data temp;
+        temp.board_id = boardId;
+        char *token2 = strtok_r(token, "-", &end_token);
+        for(int j =0; (token2!= NULL) && breakOuter == 1; j++)
         {
-            // printDEBUG(DSYS,"unutrasnji for");
             if(j == 0){
                 temp.id = atoi(token2);
             }else if(j ==1){
+                printDEBUG(DSYS,"parsiranje value\n");   
                 temp.state = atoi(token2);
-                for(int k = 0;k<SENSOR_COUNT;k++){
-                    // printDEBUG(DSYS,"TRAZI PO SENZORIMA");
-                    // printDEBUG(DSYS,"%d temp id",temp.id);
-                    // printDEBUG(DSYS,"%d stari id",board[k].id);
 
+                for(int k = 0;k<SENSOR_COUNT;k++)
+                {
                     if(temp.id == board[k].id){
                         if(temp.state != board[k].state){
                             board[k].state = temp.state;
-                            // printDEBUG(DSYS,"SKONTAO DA JE DA IMA ISTI");
                             for(int l =0;l < board[k].numOfCon ;l++)
-                            {
+                            {                                
                                 int connId = board[k].connections[l];
-                                board[l].state = temp.state;
                                 generateAction(boardId,connId,temp.state);
+                                printDEBUG(DSYS,"Generisana akcija sa ouput id : %d i sa state : %d\n",connId,temp.state);   
                             }
-                            // ovo generate action it a petlja nije testirano
                         }
                         breakOuter = 0;
                         break;
@@ -243,31 +243,30 @@ esp_err_t devices_post_handler(httpd_req_t *req)
             {   
                 strcat(details,token2);
                 if(j!=4){
+                char delim = '-';
                 append(details,delim);
                 }
             }
-            
-            // printDEBUG(DSYS,"%s",token2);
             token2 = strtok_r(NULL, "-", &end_token);
         }
         if(breakOuter == 1)
         {
             strcpy(temp.sensor_data,details);
+            temp.numOfCon = 0;
             board[i-1] = temp;
             SENSOR_COUNT++;
-            // printDEBUG(DSYS,"%d",board[i-1].id);
-            // printDEBUG(DSYS,"%d",board[i-1].board_id);
-            // printDEBUG(DSYS,"%s",board[i-1].sensor_data);
-            // printDEBUG(DSYS,"%d",board[i-1].state);
+            printDEBUG(DSYS,"Novi senzor je dodan - broj senzora: %d\n",SENSOR_COUNT);   
         }
-            
-        //    printDEBUG(DSYS,"%d",SENSOR_COUNT);
-        // temp.sensor_data = details;
         token = strtok_r(NULL, "#", &end_str);
     }
+
+    printDEBUG(DSYS,"Zavrsene akcije salje se response************\n");   
     
+    // const char resp[]= {"URI RESPONSE"};
     const char resp[200]={""};
     char template[] = {"%d-%d#"};
+    int numOfDeletions = 0;
+    int deletions[10];
     for(int i =0;i < numOfActions;i++)
     {
         if(actions[i].boardId == boardId)
@@ -275,13 +274,18 @@ esp_err_t devices_post_handler(httpd_req_t *req)
             char temp[10];
             snprintf(temp,sizeof(temp),template,actions[i].outputId,actions[i].newState);
             strcat(resp,temp);
-            deleteFromActions(i);
+            // deleteFromActions(i);
+            deletions[numOfDeletions] = i;
+            numOfDeletions++;
         }
     }
 
+    for(int i =0;i<numOfDeletions;i++){
+        deleteFromActions(deletions[i]);
+    }
+
     httpd_resp_send(req, resp, -1);
-    return ESP_OK;
-  
+    return ESP_OK;  
 }
 
 httpd_uri_t devicesPost = {
@@ -305,7 +309,6 @@ esp_err_t devices_connect_handler(httpd_req_t *req)
         return ESP_FAIL;
     }
 
-    printDEBUG(DSYS,"velicina contenta %s",content);
     int sensorId = -1;
     int outputId = 0;
     char * token = strtok(content, "-");
@@ -319,7 +322,6 @@ esp_err_t devices_connect_handler(httpd_req_t *req)
     
     for(int i =0; i < SENSOR_COUNT;i++)
     {   
-                printDEBUG(DSYS,"%d sa %d", sensorId,outputId);
         if(board[i].id == sensorId)
         {
             if(board[i].numOfCon > MAX_CONNECTIONS)
@@ -328,8 +330,21 @@ esp_err_t devices_connect_handler(httpd_req_t *req)
                 // return;
             }
                 // printDEBUG(DSYS,"konektovalo je nesto");
+            int exists = 0;
+            for(int j = 0;j < board[i].numOfCon;j++){
+                if(board[i].connections[j] == outputId)
+                {
+                    exists = 1;
+                    break;
+                }
+            }
+                    
+            if(exists == 1)
+                break;
             board[i].connections[board[i].numOfCon] = outputId;
             board[i].numOfCon++;
+            printDEBUG(DSYS,"Izvrsilo konekciju %d sa %d",board[i].id,outputId);
+        
                 // printDEBUG(DSYS,"%d",sensorId);
                 // printDEBUG(DSYS,"%d",outputId);
         }
@@ -450,7 +465,7 @@ static void launchSoftAp()
             //.channel = default,
             .authmode = WIFI_AUTH_WPA2_PSK,
             .ssid_hidden = 0,
-            .max_connection = 1,
+            .max_connection = 4,
             .beacon_interval = 150,
         },
     };
