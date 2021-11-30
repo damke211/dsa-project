@@ -60,13 +60,27 @@ void parseAndPerformActions(char* content){
                 	case 2:{
                         // printDEBUG(DSYS,"sijalica 1 prilagodjava %d \n", outputValue);
                 		devices[1].value = outputValue;
-                		// LED_on(LED1);    
+                        printDEBUG(DSYS, "na diodi %d a value",devices[1].value,outputValue);
+                		if(outputValue == 0)
+                        {
+                        LED_off(LED1);    
+                        }
+                        else{
+                        LED_on(LED1);    
+                        }
                         break;
                           }
                 	case 3:{
                         // printDEBUG(DSYS,"sijalica 2 prilagodjava %d \n",outputValue);
                         devices[2].value = outputValue;
-                		// LED_on(LED2);
+                        printDEBUG(DSYS, "na diodi2 %d a value %d",devices[2].value,outputValue);
+                		if(outputValue == 0)
+                        {
+                        LED_off(LED2);    
+                        }
+                        else{
+                        LED_on(LED2);    
+                        }
                         break;  
                 		  }
                 	default:{
@@ -211,10 +225,11 @@ void app_main()
     initDEBUG("", '5', 921600, "DSA - Debug example");
     initWIFI(WIFI_SSID,WIFI_PASS);
 
-    // adc();
-    // LDR_init();
+    adc();
+    LDR_init();
     // hcsr_init();
     // motion_init();
+    LED_init();
     printDEBUG(DSYS,"problem ne nastavi ovdje");
 
     ser.id=1;
@@ -259,21 +274,36 @@ void app_main()
     devices[5]=ultrason;
     const char template[100] = {"%d-%d-%s#"};
 
+    LED_on(LED1);
+    LED_on(LED2);
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
+    printDEBUG(DSYS,"UPALJENE DIODE");
+
+    LED_off(LED1);
+    LED_off(LED2);
+    printDEBUG(DSYS,"UGASENE DIODE");
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
+
+    // LED_on(LED1);
+    // LED_on(LED2);
+    // vTaskDelay(1000);
+
+
     while(1){
-        // devices[4].value = LDR_output();
+        devices[4].value = LDR_output();
         // devices[5].value = get_ultrasonic();
 
-        if(devices[4].value == 0)
-            {
-                    devices[4].value = 1;
-                    devices[5].value = 1;
+        // if(devices[4].value == 0)
+        //     {
+        //             devices[4].value = 1;
+        //             devices[5].value = 1;
                 
-            }
-        else
-            {
-                devices[4].value = 0;
-                devices[5].value = 0;
-            }
+        //     }
+        // else
+        //     {
+        //         devices[4].value = 0;
+        //         devices[5].value = 0;
+        //     }
             
         char sendBuffer [200]={""};
         for( int i = 0; i < numberOfDevices; i++)
@@ -292,7 +322,6 @@ void app_main()
 
         // memset(sendBuffer,0,200);
         http_rest_with_url(sendBuffer);
-        vTaskDelay(1000);
         // 
     }
 }
