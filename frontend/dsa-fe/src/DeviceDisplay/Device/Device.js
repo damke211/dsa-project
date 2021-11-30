@@ -26,10 +26,10 @@ const Device = ({id,name,value,details,sensor,handleConnect}) =>{
                 setImgSource(value === 1 ? lightOn : lightOff);
                 break;
             case "motion":
-                setImgSource(value === 1 ? motionOn : motionOff);
+                setImgSource(value === 0 ? motionOn : motionOff);
                 break;
             case "ultrasonic":
-                setImgSource(value === 1 ? usClose : usFar);
+                setImgSource(value === 0 ? usClose : usFar);
                 break;
             case "alarm":
                 setImgSource(value === 1 ? alarmOn : alarmOff);
@@ -48,17 +48,17 @@ const Device = ({id,name,value,details,sensor,handleConnect}) =>{
     const getLabel = () => {
         switch(name){
             case "light":
-                return value ? Labels.light.on : Labels.light.off;
+                return value  ? Labels.light.on : Labels.light.off;
             case "motion":
-                return value ? Labels.motion.on : Labels.motion.off;
+                return value ? Labels.motion.off : Labels.motion.on;
             case "ultrasonic":
-                return value ? Labels.ultrasonic.close : Labels.ultrasonic.far;
+                return value ? Labels.ultrasonic.far : Labels.ultrasonic.close;
             case "alarm":
-                return value ? Labels.alarm.on : Labels.alarm.off;
+                return value ? Labels.alarm.off : Labels.alarm.on;
             case "door":
                 return value ? Labels.door.opening : Labels.door.closing;
             case "ldr":
-                return value ? Labels.ldr.on : Labels.ldr.off;
+                return value ? Labels.ldr.off : Labels.ldr.on;
             default:
                 return "unknown";
             }

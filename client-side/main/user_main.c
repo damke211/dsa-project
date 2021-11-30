@@ -28,46 +28,43 @@
 void parseAndPerformActions(char* content){
     printDEBUG(DSYS,"napokon u funkciji");
     printDEBUG(DSYS,"%s CONTENT ZAVRSEN \n",content );
-    int outputId =0,outputValue =-1;
-        char * word_token_end;
-        char* word_token=strtok_r(content,"$",&word_token_end);
-        while( word_token != NULL ) {
-            char * subtoken_end;
-            char *subtoken = strtok_r(word_token,"#",&subtoken);
-            while(subtoken != NULL){
-                int i =0;
-                char * token_end;
-                char *token = strtok_r(subtoken,"-",&token_end);
-                while(token !=NULL)
-                {
-                    if(i == 0)
-                    {
-                        outputId = atoi(token);
-                        printDEBUG(DSYS,"%d output id\n",outputId);
-                        if(outputId == 0)
-                            return;
-                    }else
-                    {    
-                        outputValue = atoi(token);
-                        printDEBUG(DSYS,"%d value\n",outputValue);
-                    }
-                    if( i == 1){
-                                switch (outputId){
+    int outputId =0, outputValue =0;
+     char *str1, *str2, *str3, *token, *subtoken, *endtoken;
+            char *saveptr1, *saveptr2, *saveptr3;
+               token = strtok_r(content,"$", &saveptr1);
+               if (token == NULL)
+                   return 0;
+               for (str2 = token; ; str2 = NULL) {
+                   subtoken = strtok_r(str2, "#", &saveptr2);
+                   if (subtoken == NULL)
+                       break;
+                    int i =0;
+                    for(str3 = subtoken; ; str3 = NULL)
+                    {  
+                        endtoken = strtok_r(str3,"-",&saveptr3);
+                        if(endtoken == NULL){
+                            break;
+                        }
+                        if(i == 0){
+                                outputId = atoi(endtoken);
+                            }else{
+                                outputValue = atoi(endtoken);
+                         switch (outputId){
                 	case 1:{
                 	       //servo
-                        printDEBUG(DSYS,"servo prilagodjava %d \n", outputValue);
+                        // printDEBUG(DSYS,"servo prilagodjava %d \n", outputValue);
                 		devices[0].value = outputValue;
                         // servo(outputValue);
                         break;
                 	       }
                 	case 2:{
-                        printDEBUG(DSYS,"sijalica 1 prilagodjava %d \n", outputValue);
+                        // printDEBUG(DSYS,"sijalica 1 prilagodjava %d \n", outputValue);
                 		devices[1].value = outputValue;
                 		// LED_on(LED1);    
                         break;
                           }
                 	case 3:{
-                        printDEBUG(DSYS,"sijalica 2 prilagodjava %d \n",outputValue);
+                        // printDEBUG(DSYS,"sijalica 2 prilagodjava %d \n",outputValue);
                         devices[2].value = outputValue;
                 		// LED_on(LED2);
                         break;  
@@ -77,21 +74,11 @@ void parseAndPerformActions(char* content){
                     }
                         }
 
-                        break;
+                            }
+                            
+                            i++;
                     }
-                        
-                        
-                    i++;
-
-                
-                // s
-                    token = strtok_r(NULL,"-",&token_end);    
-                } 
-                subtoken = strtok_r(NULL,"#",&subtoken_end);
-            }
-                break;
-        word_token = strtok_r(NULL, "$",&word_token_end);
-        }
+               }
 }
 
 
