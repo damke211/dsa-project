@@ -163,7 +163,6 @@ esp_err_t devices_get_handler(httpd_req_t *req)
 	}
     }
 
-    // printDEBUG(DSYS,"%s",data_set_parsed);
 	
     httpd_resp_send(req,data_set_parsed, strlen(data_set_parsed));
 

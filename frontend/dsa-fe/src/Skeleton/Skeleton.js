@@ -21,7 +21,7 @@ const Skeleton = () => {
     },[])
 
     useEffect(()=>{
-        let handle = setInterval(getData,2000);    
+        let handle = setInterval(getData,500);    
     
         return ()=>{
           clearInterval(handle);

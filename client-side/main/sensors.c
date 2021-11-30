@@ -51,7 +51,7 @@ if (brightness>=0 && brightness<=80){
 	return 1; //mracno
 }
 else if (brightness>80 && brightness<150){
-	return 1;// srednje osvijetljenoi
+	return 0;// srednje osvijetljenoi
 }
 else{	
 	return 0;//osvijetljeno

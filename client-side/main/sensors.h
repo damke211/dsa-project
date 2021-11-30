@@ -23,8 +23,8 @@
 #define LDR            13  //D7
 #define SERVO          14  //D5
 #define PWM_PERIOD     20000 //20ms ili 20000us
-#define LED1           9 //D11
-#define LED2           10 //D12
+#define LED1           2 //D11
+#define LED2           13 //D12
 #define BUZZER_period  20000
 #define BUZZER_pin     15
 //Servo, buzzer, dioda,hcsr04 za garazu,2xLED,ldr
