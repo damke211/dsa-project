@@ -54,7 +54,7 @@ void parseAndPerformActions(char* content){
                 	       //servo
                         // printDEBUG(DSYS,"servo prilagodjava %d \n", outputValue);
                 		devices[0].value = outputValue;
-                        // servo(outputValue);
+                        servo(outputValue);
                         break;
                 	       }
                 	case 2:{
@@ -228,7 +228,8 @@ void app_main()
     adc();
     LDR_init();
     // hcsr_init();
-    // motion_init();
+    servo_init();
+    motion_init();
     LED_init();
     printDEBUG(DSYS,"problem ne nastavi ovdje");
 
@@ -291,6 +292,8 @@ void app_main()
 
     while(1){
         devices[4].value = LDR_output();
+        devices[3].value = motion_detection();
+        printDEBUG(DSYS,"%d vr na motionu",devices[3].value);
         // devices[5].value = get_ultrasonic();
 
         // if(devices[4].value == 0)
@@ -322,6 +325,7 @@ void app_main()
 
         // memset(sendBuffer,0,200);
         http_rest_with_url(sendBuffer);
+        vTaskDelay(1000);
         // 
     }
 }

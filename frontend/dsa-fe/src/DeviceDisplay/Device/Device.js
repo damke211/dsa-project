@@ -27,7 +27,7 @@ const Device = ({id,name,value,details,sensor,handleConnect}) =>{
                 break;
             case "motion":
                 setImgSource(value === 0 ? motionOn : motionOff);
-                break;
+                break;  
             case "ultrasonic":
                 setImgSource(value === 0 ? usClose : usFar);
                 break;
@@ -38,7 +38,7 @@ const Device = ({id,name,value,details,sensor,handleConnect}) =>{
                 setImgSource(value === 1 ? doorOpen : doorClosed);
                 break;
             case "ldr":
-                setImgSource(value === 1 ? ldrOn : ldrOff);
+                setImgSource(value === 0 ? ldrOn : ldrOff);
                 break;
             default:
                 setImgSource();
@@ -58,7 +58,7 @@ const Device = ({id,name,value,details,sensor,handleConnect}) =>{
             case "door":
                 return value ? Labels.door.opening : Labels.door.closing;
             case "ldr":
-                return value ? Labels.ldr.off : Labels.ldr.on;
+                return value ? Labels.ldr.on : Labels.ldr.off;
             default:
                 return "unknown";
             }
