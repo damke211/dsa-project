@@ -1,7 +1,7 @@
 esp_netif.o: \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/tcpip_adapter/esp_netif.c \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/tcpip_adapter/include/esp_netif.h \
- /home/damke/DSA/esp8266-dsa/examples/http-post/build/include/sdkconfig.h \
+ /home/damke/dsa/dsa-project/client-side/build/include/sdkconfig.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp_wifi_types.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp_common/include/esp_err.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp_interface.h \
@@ -65,7 +65,7 @@ esp_netif.o: \
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/tcpip_adapter/include/esp_netif.h:
 
-/home/damke/DSA/esp8266-dsa/examples/http-post/build/include/sdkconfig.h:
+/home/damke/dsa/dsa-project/client-side/build/include/sdkconfig.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp_wifi_types.h:
 

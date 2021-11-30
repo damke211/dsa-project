@@ -49,7 +49,7 @@ void LDR_init    (void);
 int LDR_output   (void);
 void servo_init  (void);
 void buzzer_init(void);
-int servo	  (void);
+void servo	  (int);
 
 void hcsr_init   (void);
 uint8_t get_ultrasonic(void);

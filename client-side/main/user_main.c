@@ -20,41 +20,80 @@
 #include "hw_timer.h"
 
 
-#define WIFI_SSID      "b5092a"
-#define WIFI_PASS      "330273020"
+#define WIFI_SSID "ESP32 SoftAP"
+#define WIFI_PASS "Password"
 #define MAX_HTTP_RECV_BUFFER 512
 #define MAX_HTTP_OUTPUT_BUFFER 2048
 
 void parseAndPerformActions(char* content){
     printDEBUG(DSYS,"napokon u funkciji");
-    printDEBUG(DSYS,"%s",content);
-
-    int outputId,outputValue;
-        char* word_token=strtok(content,"#");
+    printDEBUG(DSYS,"%s CONTENT ZAVRSEN \n",content );
+    int outputId =0,outputValue =-1;
+        char * word_token_end;
+        char* word_token=strtok_r(content,"$",&word_token_end);
         while( word_token != NULL ) {
-        	outputId=atoi(&word_token[0]);
-		outputValue=atoi(&word_token[2]);
-		// switch (outputId){
-		// 	case 0:{
-		// 	       //servo
-		// 		ser.value=servo();
-		// 	       }
-		// 	case 1:{
-		// 	      // buzzer       
-		// 	       }
-		// 	case 2:{
-		// 		  //LED1
-		// 		  }
-		// 	case 3:{
-		// 		  //LED2  
-		// 		  }
-		// 	case 4:{
-		// 		  //LED3
-		// 		  }
-		// }
-    word_token = strtok(NULL, "#");
+            char * subtoken_end;
+            char *subtoken = strtok_r(word_token,"#",&subtoken);
+            while(subtoken != NULL){
+                int i =0;
+                char * token_end;
+                char *token = strtok_r(subtoken,"-",&token_end);
+                while(token !=NULL)
+                {
+                    if(i == 0)
+                    {
+                        outputId = atoi(token);
+                        printDEBUG(DSYS,"%d output id\n",outputId);
+                        if(outputId == 0)
+                            return;
+                    }else
+                    {    
+                        outputValue = atoi(token);
+                        printDEBUG(DSYS,"%d value\n",outputValue);
+                    }
+                    if( i == 1){
+                                switch (outputId){
+                	case 1:{
+                	       //servo
+                        printDEBUG(DSYS,"servo prilagodjava %d \n", outputValue);
+                		devices[0].value = outputValue;
+                        // servo(outputValue);
+                        break;
+                	       }
+                	case 2:{
+                        printDEBUG(DSYS,"sijalica 1 prilagodjava %d \n", outputValue);
+                		devices[1].value = outputValue;
+                		// LED_on(LED1);    
+                        break;
+                          }
+                	case 3:{
+                        printDEBUG(DSYS,"sijalica 2 prilagodjava %d \n",outputValue);
+                        devices[2].value = outputValue;
+                		// LED_on(LED2);
+                        break;  
+                		  }
+                	default:{
+                        break;
+                    }
+                        }
+
+                        break;
+                    }
+                        
+                        
+                    i++;
+
+                
+                // s
+                    token = strtok_r(NULL,"-",&token_end);    
+                } 
+                subtoken = strtok_r(NULL,"#",&subtoken_end);
+            }
+                break;
+        word_token = strtok_r(NULL, "$",&word_token_end);
+        }
 }
-}
+
 
 esp_err_t _http_event_handler(esp_http_client_event_t *evt)
 {
@@ -157,7 +196,7 @@ void http_rest_with_url(char sendData[])
 {
     char local_response_buffer[200] ={0};
     esp_http_client_config_t config = {
-        .url = "http://jsonplaceholder.typicode.com/posts",
+        .url = "http://192.168.0.1/devices",
         .event_handler = _http_event_handler,
         .user_data = local_response_buffer
     };
@@ -189,6 +228,7 @@ void app_main()
     // LDR_init();
     // hcsr_init();
     // motion_init();
+    printDEBUG(DSYS,"problem ne nastavi ovdje");
 
     ser.id=1;
     strcpy(ser.device_details,"output-door-Garage_Door");
@@ -202,7 +242,7 @@ void app_main()
 
     LLED.id = 3;
     strcpy(LLED.device_details,"output-light-Kitchen_Light");
-    LLED.value = 1;
+    LLED.value = 0;
     // int motion=motion_detection();
     // printDEBUG(DSYS,"motion %d\n",motion);
 
@@ -233,9 +273,21 @@ void app_main()
     const char template[100] = {"%d-%d-%s#"};
 
     while(1){
-        // mmotion.value = motion_detection();
-        // LLDR.value = LDR_output();
-        // ultrason.value = get_ultrasonic();
+        // devices[4].value = LDR_output();
+        // devices[5].value = get_ultrasonic();
+
+        if(devices[4].value == 0)
+            {
+                    devices[4].value = 1;
+                    devices[5].value = 1;
+                
+            }
+        else
+            {
+                devices[4].value = 0;
+                devices[5].value = 0;
+            }
+            
         char sendBuffer [200]={""};
         for( int i = 0; i < numberOfDevices; i++)
         {
@@ -248,9 +300,12 @@ void app_main()
             strcat(sendBuffer,temp);
         }
 
-        // printDEBUG(DSYS,"Priprema podataka\n");
-        // printDEBUG(DSYS,"%s\n",sendBuffer);
+        printDEBUG(DSYS,"Priprema podataka\n");
+        printDEBUG(DSYS,"%s\n",sendBuffer);
+
+        // memset(sendBuffer,0,200);
         http_rest_with_url(sendBuffer);
         vTaskDelay(1000);
+        // 
     }
 }

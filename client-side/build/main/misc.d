@@ -1,5 +1,5 @@
-misc.o: /home/damke/DSA/esp8266-dsa/examples/http-post/main/misc.c \
- /home/damke/DSA/esp8266-dsa/examples/http-post/main/misc.h
+misc.o: /home/damke/dsa/dsa-project/client-side/main/misc.c \
+ /home/damke/dsa/dsa-project/client-side/main/misc.h
 
-/home/damke/DSA/esp8266-dsa/examples/http-post/main/misc.h:
-/home/damke/DSA/esp8266-dsa/examples/http-post/main/./misc.c:
+/home/damke/dsa/dsa-project/client-side/main/misc.h:
+/home/damke/dsa/dsa-project/client-side/main/./misc.c:

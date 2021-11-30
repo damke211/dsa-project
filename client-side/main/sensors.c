@@ -33,14 +33,14 @@ printDEBUG(DSYS,"ADC\n");
 
 void LDR_init(void){
 
-gpio_config_t io_conf_LDR;
+    gpio_config_t io_conf_LDR;
     io_conf_LDR.intr_type = GPIO_INTR_DISABLE;
     io_conf_LDR.mode = GPIO_MODE_INPUT;
     io_conf_LDR.pin_bit_mask =  (1 << LDR);
     io_conf_LDR.pull_down_en = 0;
     io_conf_LDR.pull_up_en = 0;
     gpio_config(&io_conf_LDR);
-printDEBUG(DSYS,"LDR\n");
+    printDEBUG(DSYS,"LDR\n");
 }
 
 int LDR_output(void){
@@ -48,13 +48,13 @@ uint8_t brightness=0;
 adc_read(&brightness);
 printDEBUG(DSYS,"br %d\n",brightness);
 if (brightness>=0 && brightness<=80){
-	return 0; //mracno
+	return 1; //mracno
 }
 else if (brightness>80 && brightness<150){
 	return 1;// srednje osvijetljenoi
 }
 else{	
-	return 2;//osvijetljeno
+	return 0;//osvijetljeno
 }
 }
 
@@ -74,20 +74,17 @@ pwm_start();
 
 }
 /*za prestanak zvuka pozvati funkciju pwm_stop(1);*/
-int servo(void){
-if(ser.value==1){
-step=1000;
-pwm_set_duty(0,step);
-pwm_start();
-return 0;
-}
-if(ser.value==0){
-step=2500;
-pwm_set_duty(0,step);
-pwm_start();
-return 1;
-}
-return 2;
+void servo(int input){
+    if(input == 0){
+        step=750;
+        pwm_set_duty(0,step);
+        pwm_start();
+    }
+    if(input == 1 ){
+        step=1500;
+        pwm_set_duty(0,step);
+        pwm_start();
+    }
 }
 
 void hcsr_init(void){
@@ -107,7 +104,7 @@ void hcsr_init(void){
         io_conf_ECHO.pull_down_en = 0;
         io_conf_ECHO.pull_up_en = 0;
         gpio_config(&io_conf_ECHO);
- printDEBUG(DSYS,"HCSR\n");
+        printDEBUG(DSYS,"HCSR\n");
 }
 uint8_t get_ultrasonic(void)
 {
@@ -118,6 +115,7 @@ uint8_t get_ultrasonic(void)
 start:
     while (1)
     {
+        printDEBUG(DSYS,"racuna ultrasonic");
 
         gpio_set_level(TRIGGER_PIN, 0);
         vTaskDelay(0.003 / portTICK_RATE_MS);
@@ -183,31 +181,31 @@ int motion_detection(void)
 }
 
 void LED_init(void){
-gpio_config_t io_conf_LED1;
-io_conf_LED1.intr_type=GPIO_INTR_DISABLE;
-io_conf_LED1.mode=GPIO_MODE_OUTPUT;
-io_conf_LED1.pin_bit_mask=(1<<LED1);
-io_conf_LED1.pull_down_en=0;
-io_conf_LED1.pull_up_en=0;
-gpio_config(&io_conf_LED1);
+    gpio_config_t io_conf_LED1;
+    io_conf_LED1.intr_type=GPIO_INTR_DISABLE;
+    io_conf_LED1.mode=GPIO_MODE_OUTPUT;
+    io_conf_LED1.pin_bit_mask=(1<<LED1);
+    io_conf_LED1.pull_down_en=0;
+    io_conf_LED1.pull_up_en=0;
+    gpio_config(&io_conf_LED1);
 
-gpio_config_t io_conf_LED2;
-io_conf_LED2.intr_type=GPIO_INTR_DISABLE;
-io_conf_LED2.mode=GPIO_MODE_OUTPUT;
-io_conf_LED2.pin_bit_mask=(1<<LED2);
-io_conf_LED2.pull_down_en=0;
-io_conf_LED2.pull_up_en=0;
-gpio_config(&io_conf_LED2);
+    gpio_config_t io_conf_LED2;
+    io_conf_LED2.intr_type=GPIO_INTR_DISABLE;
+    io_conf_LED2.mode=GPIO_MODE_OUTPUT;
+    io_conf_LED2.pin_bit_mask=(1<<LED2);
+    io_conf_LED2.pull_down_en=0;
+    io_conf_LED2.pull_up_en=0;
+    gpio_config(&io_conf_LED2);
 }
 
 
 
 void LED_on(int LED_number){
-gpio_set_level(LED_number,1);
+    gpio_set_level(LED_number,1);
 }
 
 void LED_off(int LED_number){
-gpio_set_level(LED_number,0);
+    gpio_set_level(LED_number,0);
 }
 
 

@@ -2,7 +2,7 @@ src/crypto/crypto_mbedtls.o: \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/wpa_supplicant/src/crypto/crypto_mbedtls.c \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp_system.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp_common/include/esp_err.h \
- /home/damke/DSA/esp8266-dsa/examples/http-post/build/include/sdkconfig.h \
+ /home/damke/dsa/dsa-project/client-side/build/include/sdkconfig.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp_idf_version.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/wpa_supplicant/src/utils/includes.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/wpa_supplicant/port/include/supplicant_opt.h \
@@ -47,7 +47,7 @@ src/crypto/crypto_mbedtls.o: \
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/esp_common/include/esp_err.h:
 
-/home/damke/DSA/esp8266-dsa/examples/http-post/build/include/sdkconfig.h:
+/home/damke/dsa/dsa-project/client-side/build/include/sdkconfig.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp_idf_version.h:
 

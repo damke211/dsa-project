@@ -1,8 +1,8 @@
-wifi.o: /home/damke/DSA/esp8266-dsa/examples/http-post/main/wifi.c \
- /home/damke/DSA/esp8266-dsa/examples/http-post/main/wifi.h \
+wifi.o: /home/damke/dsa/dsa-project/client-side/main/wifi.c \
+ /home/damke/dsa/dsa-project/client-side/main/wifi.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/include/freertos/FreeRTOS.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/port/esp8266/include/freertos/FreeRTOSConfig.h \
- /home/damke/DSA/esp8266-dsa/examples/http-post/build/include/sdkconfig.h \
+ /home/damke/dsa/dsa-project/client-side/build/include/sdkconfig.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/rom/ets_sys.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp8266/eagle_soc.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/driver/soc.h \
@@ -81,15 +81,15 @@ wifi.o: /home/damke/DSA/esp8266-dsa/examples/http-post/main/wifi.c \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/spi_flash/include/spi_flash.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/lwip/lwip/src/include/lwip/err.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/lwip/lwip/src/include/lwip/sys.h \
- /home/damke/DSA/esp8266-dsa/examples/http-post/main/debug.h
+ /home/damke/dsa/dsa-project/client-side/main/debug.h
 
-/home/damke/DSA/esp8266-dsa/examples/http-post/main/wifi.h:
+/home/damke/dsa/dsa-project/client-side/main/wifi.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/include/freertos/FreeRTOS.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/port/esp8266/include/freertos/FreeRTOSConfig.h:
 
-/home/damke/DSA/esp8266-dsa/examples/http-post/build/include/sdkconfig.h:
+/home/damke/dsa/dsa-project/client-side/build/include/sdkconfig.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/rom/ets_sys.h:
 
@@ -247,5 +247,5 @@ wifi.o: /home/damke/DSA/esp8266-dsa/examples/http-post/main/wifi.c \
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/lwip/lwip/src/include/lwip/sys.h:
 
-/home/damke/DSA/esp8266-dsa/examples/http-post/main/debug.h:
-/home/damke/DSA/esp8266-dsa/examples/http-post/main/./wifi.c:
+/home/damke/dsa/dsa-project/client-side/main/debug.h:
+/home/damke/dsa/dsa-project/client-side/main/./wifi.c:

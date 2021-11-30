@@ -2,7 +2,7 @@ port/portevent_m.o: \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/freemodbus/port/portevent_m.c \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/freemodbus/modbus/include/mb_m.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/freemodbus/modbus/include/mbconfig.h \
- /home/damke/DSA/esp8266-dsa/examples/http-post/build/include/sdkconfig.h \
+ /home/damke/dsa/dsa-project/client-side/build/include/sdkconfig.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/freemodbus/port/port.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/include/freertos/FreeRTOS.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/port/esp8266/include/freertos/FreeRTOSConfig.h \
@@ -52,7 +52,7 @@ port/portevent_m.o: \
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/freemodbus/modbus/include/mbconfig.h:
 
-/home/damke/DSA/esp8266-dsa/examples/http-post/build/include/sdkconfig.h:
+/home/damke/dsa/dsa-project/client-side/build/include/sdkconfig.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/freemodbus/port/port.h:
 
