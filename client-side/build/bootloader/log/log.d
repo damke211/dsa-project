@@ -2,7 +2,7 @@ log.o: /home/damke/DSA/ESP8266_RTOS_SDK/components/log/log.c \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp_libc.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/rom/ets_sys.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp8266/eagle_soc.h \
- /home/damke/dsa/dsa-project/client-side/build/bootloader/../include/sdkconfig.h \
+ /home/damke/DSA/esp8266-dsa/examples/http-post/build/bootloader/../include/sdkconfig.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/driver/soc.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp_attr.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/xtensa/hal.h \
@@ -19,7 +19,7 @@ log.o: /home/damke/DSA/ESP8266_RTOS_SDK/components/log/log.c \
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp8266/eagle_soc.h:
 
-/home/damke/dsa/dsa-project/client-side/build/bootloader/../include/sdkconfig.h:
+/home/damke/DSA/esp8266-dsa/examples/http-post/build/bootloader/../include/sdkconfig.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/driver/soc.h:
 

@@ -16,7 +16,7 @@ port/esp8266/xtensa_context.o: \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/xtensa/xtruntime-frames.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/port/esp8266/include/freertos/xtensa_timer.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/port/esp8266/include/freertos/FreeRTOSConfig.h \
- /home/damke/dsa/dsa-project/client-side/build/include/sdkconfig.h \
+ /home/damke/DSA/esp8266-dsa/examples/http-post/build/include/sdkconfig.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/port/esp8266/include/freertos/xtensa_rtos.h
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/port/esp8266/include/freertos/xtensa_rtos.h:
@@ -51,7 +51,7 @@ port/esp8266/xtensa_context.o: \
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/port/esp8266/include/freertos/FreeRTOSConfig.h:
 
-/home/damke/dsa/dsa-project/client-side/build/include/sdkconfig.h:
+/home/damke/DSA/esp8266-dsa/examples/http-post/build/include/sdkconfig.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/port/esp8266/include/freertos/xtensa_rtos.h:
 /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/port/esp8266/xtensa_context.S:

@@ -2,7 +2,7 @@ apps/ping/ping_sock.o: \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/lwip/apps/ping/ping_sock.c \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/include/freertos/FreeRTOS.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/port/esp8266/include/freertos/FreeRTOSConfig.h \
- /home/damke/dsa/dsa-project/client-side/build/include/sdkconfig.h \
+ /home/damke/DSA/esp8266-dsa/examples/http-post/build/include/sdkconfig.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/rom/ets_sys.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp8266/eagle_soc.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/driver/soc.h \
@@ -89,7 +89,7 @@ apps/ping/ping_sock.o: \
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/port/esp8266/include/freertos/FreeRTOSConfig.h:
 
-/home/damke/dsa/dsa-project/client-side/build/include/sdkconfig.h:
+/home/damke/DSA/esp8266-dsa/examples/http-post/build/include/sdkconfig.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/rom/ets_sys.h:
 

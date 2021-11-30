@@ -1,7 +1,7 @@
 mbedtls/library/ecp_curves.o: \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/mbedtls/mbedtls/library/ecp_curves.c \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/mbedtls/port/include/mbedtls/esp_config.h \
- /home/damke/dsa/dsa-project/client-side/build/include/sdkconfig.h \
+ /home/damke/DSA/esp8266-dsa/examples/http-post/build/include/sdkconfig.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/mbedtls/mbedtls/include/mbedtls/config.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/mbedtls/mbedtls/include/mbedtls/check_config.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/mbedtls/port/include/esp_mem.h \
@@ -12,7 +12,7 @@ mbedtls/library/ecp_curves.o: \
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/mbedtls/port/include/mbedtls/esp_config.h:
 
-/home/damke/dsa/dsa-project/client-side/build/include/sdkconfig.h:
+/home/damke/DSA/esp8266-dsa/examples/http-post/build/include/sdkconfig.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/mbedtls/mbedtls/include/mbedtls/config.h:
 

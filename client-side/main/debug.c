@@ -21,7 +21,8 @@ volatile uint8_t g_logmsg_ccode = '5';
 const uint8_t c_mod[DSIZE][32] =
 {
     {"SYS"},
-    {"WIFI"}
+    {"WIFI"},
+    {"HTTP"},
 
 };
 

@@ -1,7 +1,7 @@
 src/select.o: \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/newlib/src/select.c \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/newlib/platform_include/sys/select.h \
- /home/damke/dsa/dsa-project/client-side/build/include/sdkconfig.h \
+ /home/damke/DSA/esp8266-dsa/examples/http-post/build/include/sdkconfig.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/vfs/include/esp_vfs.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/include/freertos/FreeRTOS.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/freertos/port/esp8266/include/freertos/FreeRTOSConfig.h \
@@ -39,7 +39,7 @@ src/select.o: \
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/newlib/platform_include/sys/select.h:
 
-/home/damke/dsa/dsa-project/client-side/build/include/sdkconfig.h:
+/home/damke/DSA/esp8266-dsa/examples/http-post/build/include/sdkconfig.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/vfs/include/esp_vfs.h:
 

@@ -1,6 +1,6 @@
 src/bootloader_utility.o: \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/bootloader_support/src/bootloader_utility.c \
- /home/damke/dsa/dsa-project/client-side/build/include/sdkconfig.h \
+ /home/damke/DSA/esp8266-dsa/examples/http-post/build/include/sdkconfig.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/bootloader_support/include_priv/bootloader_config.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/bootloader_support/include/esp_flash_data_types.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/bootloader_support/include_priv/bootloader_utility.h \
@@ -25,7 +25,7 @@ src/bootloader_utility.o: \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp_system.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp_idf_version.h
 
-/home/damke/dsa/dsa-project/client-side/build/include/sdkconfig.h:
+/home/damke/DSA/esp8266-dsa/examples/http-post/build/include/sdkconfig.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/bootloader_support/include_priv/bootloader_config.h:
 

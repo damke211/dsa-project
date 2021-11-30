@@ -72,14 +72,24 @@ user_main.o: /home/damke/dsa/dsa-project/client-side/main/user_main.c \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/tcpip_adapter/include/tcpip_adapter.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp_wifi.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp_wifi_types.h \
+ /home/damke/DSA/ESP8266_RTOS_SDK/components/nvs_flash/include/nvs.h \
+ /home/damke/DSA/ESP8266_RTOS_SDK/components/nvs_flash/include/nvs_flash.h \
+ /home/damke/DSA/ESP8266_RTOS_SDK/components/nvs_flash/include/nvs.h \
+ /home/damke/DSA/ESP8266_RTOS_SDK/components/spi_flash/include/esp_partition.h \
+ /home/damke/DSA/ESP8266_RTOS_SDK/components/spi_flash/include/esp_spi_flash.h \
+ /home/damke/DSA/ESP8266_RTOS_SDK/components/spi_flash/include/spi_flash.h \
+ /home/damke/DSA/ESP8266_RTOS_SDK/components/lwip/lwip/src/include/lwip/err.h \
+ /home/damke/DSA/ESP8266_RTOS_SDK/components/lwip/lwip/src/include/lwip/sys.h \
+ /home/damke/dsa/dsa-project/client-side/main/debug.h \
+ /home/damke/dsa/dsa-project/client-side/main/wifi.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp_http_client/include/esp_http_client.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/http_parser/include/http_parser.h \
+ /home/damke/dsa/dsa-project/client-side/main/protocol_examples_common.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp-tls/esp_tls.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/lwip/port/esp8266/include/sys/socket.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/lwip/lwip/src/include/lwip/sockets.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/newlib/platform_include/sys/poll.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/lwip/lwip/src/include/lwip/netif.h \
- /home/damke/DSA/ESP8266_RTOS_SDK/components/lwip/lwip/src/include/lwip/err.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/lwip/lwip/src/include/lwip/pbuf.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/lwip/lwip/src/include/lwip/stats.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/lwip/lwip/src/include/lwip/mem.h \
@@ -125,15 +135,6 @@ user_main.o: /home/damke/dsa/dsa-project/client-side/main/user_main.c \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/mbedtls/port/include/esp8266/esp_aes.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/mbedtls/mbedtls/include/mbedtls/error.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/mbedtls/mbedtls/include/mbedtls/certs.h \
- /home/damke/DSA/ESP8266_RTOS_SDK/components/nvs_flash/include/nvs.h \
- /home/damke/DSA/ESP8266_RTOS_SDK/components/nvs_flash/include/nvs_flash.h \
- /home/damke/DSA/ESP8266_RTOS_SDK/components/nvs_flash/include/nvs.h \
- /home/damke/DSA/ESP8266_RTOS_SDK/components/spi_flash/include/esp_partition.h \
- /home/damke/DSA/ESP8266_RTOS_SDK/components/spi_flash/include/esp_spi_flash.h \
- /home/damke/DSA/ESP8266_RTOS_SDK/components/spi_flash/include/spi_flash.h \
- /home/damke/DSA/ESP8266_RTOS_SDK/components/lwip/lwip/src/include/lwip/sys.h \
- /home/damke/dsa/dsa-project/client-side/main/debug.h \
- /home/damke/dsa/dsa-project/client-side/main/wifi.h \
  /home/damke/dsa/dsa-project/client-side/main/sensors.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/driver/pwm.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/driver/gpio.h \
@@ -289,9 +290,31 @@ user_main.o: /home/damke/dsa/dsa-project/client-side/main/user_main.c \
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp_wifi_types.h:
 
+/home/damke/DSA/ESP8266_RTOS_SDK/components/nvs_flash/include/nvs.h:
+
+/home/damke/DSA/ESP8266_RTOS_SDK/components/nvs_flash/include/nvs_flash.h:
+
+/home/damke/DSA/ESP8266_RTOS_SDK/components/nvs_flash/include/nvs.h:
+
+/home/damke/DSA/ESP8266_RTOS_SDK/components/spi_flash/include/esp_partition.h:
+
+/home/damke/DSA/ESP8266_RTOS_SDK/components/spi_flash/include/esp_spi_flash.h:
+
+/home/damke/DSA/ESP8266_RTOS_SDK/components/spi_flash/include/spi_flash.h:
+
+/home/damke/DSA/ESP8266_RTOS_SDK/components/lwip/lwip/src/include/lwip/err.h:
+
+/home/damke/DSA/ESP8266_RTOS_SDK/components/lwip/lwip/src/include/lwip/sys.h:
+
+/home/damke/dsa/dsa-project/client-side/main/debug.h:
+
+/home/damke/dsa/dsa-project/client-side/main/wifi.h:
+
 /home/damke/DSA/ESP8266_RTOS_SDK/components/esp_http_client/include/esp_http_client.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/http_parser/include/http_parser.h:
+
+/home/damke/dsa/dsa-project/client-side/main/protocol_examples_common.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/esp-tls/esp_tls.h:
 
@@ -302,8 +325,6 @@ user_main.o: /home/damke/dsa/dsa-project/client-side/main/user_main.c \
 /home/damke/DSA/ESP8266_RTOS_SDK/components/newlib/platform_include/sys/poll.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/lwip/lwip/src/include/lwip/netif.h:
-
-/home/damke/DSA/ESP8266_RTOS_SDK/components/lwip/lwip/src/include/lwip/err.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/lwip/lwip/src/include/lwip/pbuf.h:
 
@@ -394,24 +415,6 @@ user_main.o: /home/damke/dsa/dsa-project/client-side/main/user_main.c \
 /home/damke/DSA/ESP8266_RTOS_SDK/components/mbedtls/mbedtls/include/mbedtls/error.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/mbedtls/mbedtls/include/mbedtls/certs.h:
-
-/home/damke/DSA/ESP8266_RTOS_SDK/components/nvs_flash/include/nvs.h:
-
-/home/damke/DSA/ESP8266_RTOS_SDK/components/nvs_flash/include/nvs_flash.h:
-
-/home/damke/DSA/ESP8266_RTOS_SDK/components/nvs_flash/include/nvs.h:
-
-/home/damke/DSA/ESP8266_RTOS_SDK/components/spi_flash/include/esp_partition.h:
-
-/home/damke/DSA/ESP8266_RTOS_SDK/components/spi_flash/include/esp_spi_flash.h:
-
-/home/damke/DSA/ESP8266_RTOS_SDK/components/spi_flash/include/spi_flash.h:
-
-/home/damke/DSA/ESP8266_RTOS_SDK/components/lwip/lwip/src/include/lwip/sys.h:
-
-/home/damke/dsa/dsa-project/client-side/main/debug.h:
-
-/home/damke/dsa/dsa-project/client-side/main/wifi.h:
 
 /home/damke/dsa/dsa-project/client-side/main/sensors.h:
 

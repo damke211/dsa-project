@@ -11,6 +11,7 @@ typedef enum
 	DSYS = 0x0000,
 	DWIFI,
 	DHTTP,
+	
 	DSIZE,
 
 	DDEBUGEXT = 0x1000,

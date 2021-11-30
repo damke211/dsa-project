@@ -10,7 +10,7 @@ library/ssl_x509.o: \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/openssl/include/internal/ssl_methods.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/openssl/include/internal/ssl_dbg.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/openssl/include/platform/ssl_opt.h \
- /home/damke/dsa/dsa-project/client-side/build/include/sdkconfig.h \
+ /home/damke/DSA/esp8266-dsa/examples/http-post/build/include/sdkconfig.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/openssl/include/platform/ssl_port.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/esp8266/include/esp_types.h \
  /home/damke/DSA/ESP8266_RTOS_SDK/components/log/include/esp_log.h \
@@ -43,7 +43,7 @@ library/ssl_x509.o: \
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/openssl/include/platform/ssl_opt.h:
 
-/home/damke/dsa/dsa-project/client-side/build/include/sdkconfig.h:
+/home/damke/DSA/esp8266-dsa/examples/http-post/build/include/sdkconfig.h:
 
 /home/damke/DSA/ESP8266_RTOS_SDK/components/openssl/include/platform/ssl_port.h:
 
